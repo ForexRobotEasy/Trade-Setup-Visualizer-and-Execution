@@ -1,0 +1,58 @@
+
+// Program: Trade Setup Visualizer and Execution
+// Developer: Forex Robot Easy Team
+// Developer's Site: forexroboteasy.com
+
+// Trade Setup Visualizer Tool
+// Lightweight trade manager, inspired by trading view
+// Provides an intuitive platform for traders to position orders and manage risks
+
+#include <Trade.mqh>
+#include <ChartObjects\ChartObject.mqh>
+
+// Function to calculate risk based on equity and pip spread choices
+double CalculateRisk(double equity, double pipSpread)
+{
+    double riskPercentage = 2.0; // Risk percentage chosen by the trader
+    double riskAmount = equity * riskPercentage / 100.0;
+    double pipValue = pipSpread * 0.0001;
+    double volume = riskAmount / pipValue;
+    
+    return volume;
+}
+
+// Function to display calculated risk on the chart
+void DisplayCalculatedRisk(double risk, string instrument)
+{
+    string text = 'Calculated Risk: ' + DoubleToString(risk, 2) + ' lots';
+    CChartObjectText *riskText = new CChartObjectText();
+    riskText.Create(0, 'CalculatedRisk', 0, 0);
+    riskText.SetText(text);
+    riskText.SetPosition(10, 10);
+    riskText.SetColor(Blue);
+    riskText.SetFontSize(10);
+    riskText.SetFont('Arial');
+    riskText.SetBackgroundColor(None);
+    riskText.SetZOrder(0);
+}
+
+// Function to adjust entry positions using square anchors
+void AdjustEntryPositions()
+{
+    // Implement visual representation of trade settings
+    // Allow traders to adjust entry positions using square anchors
+}
+
+// Entry point of the program
+void OnStart()
+{
+    double equity = AccountInfoDouble(ACCOUNT_BALANCE); // Trader's equity
+    double pipSpread = 10.0; // Pip spread chosen by the trader
+    
+    double calculatedRisk = CalculateRisk(equity, pipSpread);
+    
+    string selectedInstrument = Symbol();
+    DisplayCalculatedRisk(calculatedRisk, selectedInstrument);
+    
+    AdjustEntryPositions();
+}
